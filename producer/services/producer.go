@@ -8,7 +8,7 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-type EventProducer interface {
+type IEventProducer interface {
 	Produce(event events.Event) error
 }
 
@@ -16,7 +16,7 @@ type eventProducer struct {
 	producer sarama.SyncProducer
 }
 
-func NewEventProducer(producer sarama.SyncProducer) EventProducer {
+func NewEventProducer(producer sarama.SyncProducer) IEventProducer {
 	return eventProducer{producer}
 }
 

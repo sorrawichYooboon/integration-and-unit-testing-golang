@@ -2,6 +2,24 @@
 
 Test is in producer folder
 
+## Setup
+
+### Install Testify
+
+> Testify is a toolkit with common assertions and mocks that plays nicely with the standard library.
+
+```bash
+go get -u github.com/stretchr/testify/mock
+```
+
+### Install Mockery
+
+> Mockery is a mock code autogenerator for Golang.
+
+```bash
+go get github.com/vektra/mockery/v2/.../
+```
+
 ## Mockery
 
 > **--dir**: The directory in which to search for interfaces. (required)<br> **--name**: The name of the interface for which to generate a mock. (required)<br> **--output**: The directory to which the mock file will be written. (required)<br> **--outpkg**: The name of the package in which the mock should be generated. (required)<br> **--filename**: The name of the file to which the mock will be written. (optional)

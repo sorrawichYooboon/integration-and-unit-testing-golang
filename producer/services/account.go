@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type AccountService interface {
+type IAccountService interface {
 	OpenAccount(command commands.OpenAccountCommand) (id string, err error)
 	DepositFund(command commands.DepositFundCommand) error
 	WithdrawFund(command commands.WithdrawFundCommand) error
@@ -17,10 +17,10 @@ type AccountService interface {
 }
 
 type accountService struct {
-	eventProducer EventProducer
+	eventProducer IEventProducer
 }
 
-func NewAccountService(eventProducer EventProducer) AccountService {
+func NewAccountService(eventProducer IEventProducer) IAccountService {
 	return accountService{eventProducer}
 }
 

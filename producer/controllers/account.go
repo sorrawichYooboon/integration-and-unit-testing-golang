@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type AccountController interface {
+type IAccountController interface {
 	OpenAccount(c *fiber.Ctx) error
 	DepositFund(c *fiber.Ctx) error
 	WithdrawFund(c *fiber.Ctx) error
@@ -16,10 +16,10 @@ type AccountController interface {
 }
 
 type accountController struct {
-	accountService services.AccountService
+	accountService services.IAccountService
 }
 
-func NewAccountController(accountService services.AccountService) AccountController {
+func NewAccountController(accountService services.IAccountService) IAccountController {
 	return accountController{accountService}
 }
 

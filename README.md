@@ -4,6 +4,14 @@ Test is in producer folder
 
 ## Setup
 
+### Install Fiber
+
+> Fiber is an Express inspired web framework written in Go
+
+```bash
+go get -u github.com/gofiber/fiber/v2
+```
+
 ### Install Testify
 
 > Testify is a toolkit with common assertions and mocks that plays nicely with the standard library.
@@ -18,6 +26,26 @@ go get -u github.com/stretchr/testify/mock
 
 ```bash
 go get github.com/vektra/mockery/v2/.../
+```
+
+### Go coverage highlighting (File should place beside of testing file)
+
+> Go coverage highlighting is a plugin for highlighting lines in the Go source code that are not covered by tests.
+
+place in json settings file
+
+```json
+"go.coverageOptions": "showBothCoveredAndUncoveredCode",
+  "go.coverageDecorator": {
+    "type": "highlight",
+    "coveredHighlightColor": "rgba(59, 255, 125, 0.03)",
+    "uncoveredHighlightColor": "rgba(255, 100, 81, 0.03)",
+    "coveredBorderColor": "rgba(59, 255, 125, 0.03)",
+    "uncoveredBorderColor": "rgba(255, 100, 81, 0.03)",
+    "coveredGutterStyle": "blockgreen",
+    "uncoveredGutterStyle": "blockred"
+  },
+  "editor.unicodeHighlight.nonBasicASCII": false,
 ```
 
 ## Mockery

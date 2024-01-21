@@ -1,8 +1,9 @@
 package main
 
 import (
-	"producer/controllers"
-	"producer/services"
+	accountcontrollers "producer/controllers/account"
+	accountservice "producer/services/account"
+	eventproducerservice "producer/services/producer"
 	"strings"
 
 	"github.com/Shopify/sarama"
@@ -28,9 +29,9 @@ func main() {
 	}
 	defer producer.Close()
 
-	eventProducer := services.NewEventProducer(producer)
-	accountService := services.NewAccountService(eventProducer)
-	accountController := controllers.NewAccountController(accountService)
+	eventProducer := eventproducerservice.NewEventProducer(producer)
+	accountService := accountservice.NewAccountService(eventProducer)
+	accountController := accountcontrollers.NewAccountController(accountService)
 
 	app := fiber.New()
 

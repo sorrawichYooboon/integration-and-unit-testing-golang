@@ -1,9 +1,10 @@
-package controllers
+package accountcontrollers
 
 import (
+	"encoding/json"
 	"log"
 	"producer/commands"
-	"producer/services"
+	services "producer/services/account"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,15 +26,15 @@ func NewAccountController(accountService services.IAccountService) IAccountContr
 
 func (obj accountController) OpenAccount(c *fiber.Ctx) error {
 	command := commands.OpenAccountCommand{}
-
-	err := c.BodyParser(&command)
+	err := json.Unmarshal(c.Body(), &command)
 	if err != nil {
-		return err
+		c.Status(fiber.StatusBadRequest)
+		return c.SendString(err.Error())
 	}
 
 	id, err := obj.accountService.OpenAccount(command)
 	if err != nil {
-		log.Println(err)
+		c.Status(fiber.StatusInternalServerError)
 		return err
 	}
 
@@ -46,15 +47,16 @@ func (obj accountController) OpenAccount(c *fiber.Ctx) error {
 
 func (obj accountController) DepositFund(c *fiber.Ctx) error {
 	command := commands.DepositFundCommand{}
-	err := c.BodyParser(&command)
+	err := json.Unmarshal(c.Body(), &command)
 	if err != nil {
-		return err
+		c.Status(fiber.StatusBadRequest)
+		return c.SendString(err.Error())
 	}
 
 	err = obj.accountService.DepositFund(command)
 	if err != nil {
-		log.Println(err)
-		return err
+		c.Status(fiber.StatusInternalServerError)
+		return c.SendString(err.Error())
 	}
 
 	return c.JSON(fiber.Map{

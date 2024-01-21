@@ -1,10 +1,11 @@
-package services
+package accountservice
 
 import (
 	"errors"
 	"events"
 	"log"
 	"producer/commands"
+	services "producer/services/producer"
 
 	"github.com/google/uuid"
 )
@@ -17,14 +18,14 @@ type IAccountService interface {
 }
 
 type accountService struct {
-	eventProducer IEventProducer
+	eventProducer services.IEventProducer
 }
 
-func NewAccountService(eventProducer IEventProducer) IAccountService {
+func NewAccountService(eventProducer services.IEventProducer) IAccountService {
 	return accountService{eventProducer}
 }
 
-func (obj accountService) OpenAccount(command commands.OpenAccountCommand) (id string, err error) {
+func (sv accountService) OpenAccount(command commands.OpenAccountCommand) (id string, err error) {
 
 	if command.AccountHolder == "" || command.AccountType == 0 || command.OpeningBalance == 0 {
 		return "", errors.New("bad request")
@@ -38,10 +39,10 @@ func (obj accountService) OpenAccount(command commands.OpenAccountCommand) (id s
 	}
 
 	log.Printf("%#v", event)
-	return event.ID, obj.eventProducer.Produce(event)
+	return event.AccountHolder, sv.eventProducer.Produce(event)
 }
 
-func (obj accountService) DepositFund(command commands.DepositFundCommand) error {
+func (sv accountService) DepositFund(command commands.DepositFundCommand) error {
 	if command.ID == "" || command.Amount == 0 {
 		return errors.New("bad request")
 	}
@@ -52,10 +53,10 @@ func (obj accountService) DepositFund(command commands.DepositFundCommand) error
 	}
 
 	log.Printf("%#v", event)
-	return obj.eventProducer.Produce(event)
+	return sv.eventProducer.Produce(event)
 }
 
-func (obj accountService) WithdrawFund(command commands.WithdrawFundCommand) error {
+func (sv accountService) WithdrawFund(command commands.WithdrawFundCommand) error {
 	if command.ID == "" || command.Amount == 0 {
 		return errors.New("bad request")
 	}
@@ -66,10 +67,10 @@ func (obj accountService) WithdrawFund(command commands.WithdrawFundCommand) err
 	}
 
 	log.Printf("%#v", event)
-	return obj.eventProducer.Produce(event)
+	return sv.eventProducer.Produce(event)
 }
 
-func (obj accountService) CloseAccount(command commands.CloseAccountCommand) error {
+func (sv accountService) CloseAccount(command commands.CloseAccountCommand) error {
 	if command.ID == "" {
 		return errors.New("bad request")
 	}
@@ -79,5 +80,5 @@ func (obj accountService) CloseAccount(command commands.CloseAccountCommand) err
 	}
 
 	log.Printf("%#v", event)
-	return obj.eventProducer.Produce(event)
+	return sv.eventProducer.Produce(event)
 }

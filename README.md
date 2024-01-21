@@ -102,6 +102,38 @@ place in json settings file
 > --all
 > ```
 
+## How to run test
+
+### Unit Test
+
+> Unit tests are tests that test a single unit of code.
+
+```bash
+go test ./...
+```
+
+### Integration Test
+
+#### 1. Not mark integration test on top of package in test file
+
+```
+//go:build integration
+```
+
+> Integration tests are tests that test multiple units of code together.
+
+#### 2. Mark integration test on top of package
+
+> Integration tests are skipped by default. To run integration tests, use the -tags=integration flag.
+
+```
+//go:build integration
+```
+
+```bash
+go test ./... -tags=integration
+```
+
 ## This is a simple example of using Kafka with Golang and MariaDB.
 
 ### Prerequisites:
